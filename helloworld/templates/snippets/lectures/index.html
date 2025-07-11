@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block main %}
+
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-4">
+        <form method="get" class="form-inline mb-3 d-flex">
+          <input type="text" name="q_name" value="{{ search_name }}" placeholder="講義名で検索" class="form-control mr-2">
+          <input type="text" name="q_university" value="{{ search_university }}" placeholder="大学名" class="form-control mr-2">
+          <select name="q_year" class="form-control mr-2">
+            <option value="">学年で検索</option>
+            <option value="1" {% if search_year == "1" %}selected{% endif %}>1</option>
+            <option value="2" {% if search_year == "2" %}selected{% endif %}>2</option>
+            <option value="3" {% if search_year == "3" %}selected{% endif %}>3</option>
+            <option value="4" {% if search_year == "4" %}selected{% endif %}>4</option>
+          </select>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-6 col-md-4 offset-md-8">
+        <form method="get" class="form-inline mb-3">
+          <!-- 検索条件を hidden で保持 -->
+          <input type="hidden" name="q_name" value="{{ search_name }}">
+          <input type="hidden" name="q_year" value="{{ search_year }}">
+          <input type="hidden" name="q_university" value="{{ search_university }}">
+
+          <select name="sort" class="form-control mr-2" onchange="this.form.submit()">
+            <option value="">並び替え</option>
+            <option value="review_count_desc" {% if sort == "review_count_desc" %}selected{% endif %}>レビューが多い順</option>
+            <option value="review_count_asc" {% if sort == "review_count_asc" %}selected{% endif %}>レビューが少ない順</option>
+            <option value="average_score_desc" {% if sort == "average_score_desc" %}selected{% endif %}>評価が高い順</option>
+            <option value="average_score_asc" {% if sort == "average_score_asc" %}selected{% endif %}>評価が低い順</option>
+          </select>
+        </form>
+    </div>
+</div>
+
+<h2>講義一覧</h2>
+{% include 'lectures/_lectures_table.html' %}
+
+{% endblock %}

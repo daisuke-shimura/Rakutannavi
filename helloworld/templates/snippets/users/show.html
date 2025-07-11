@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block main %}
+<div class="row">
+  <div class="col d-flex align-items-end">
+    <h2>{{ user.username }}さんのマイページ</h2>
+  </div>
+  <div class="col">
+    <a href="{% url 'users_edit' user.id %}" class="btn btn-primary"><i class="fa-solid fa-user-pen"></i> 編集</a>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col">名前</div>
+    <div class="col">{{ user.username }}</div>
+</div>
+<div class="row">
+    <div class="col">メールアドレス</div>
+    <div class="col">{{ user.email }}</div>
+</div>
+<div class="row">
+    <div class="col">大学</div>
+    <div class="col">{{ user.university|default:"" }}</div>
+</div>
+<div class="row">
+    <div class="col">学年</div>
+    <div class="col">{{ user.school_year|default:"" }}</div>
+</div>
+
+<hr>
+<div class="row">
+    <div class="col">
+        <h2>投稿したレビュー</h2>
+        {% if reviews %}
+        {% for review in reviews %}
+        <div>
+            講義名：<a href="{% url 'lectures_show' review.lecture.id %}">{{ review.lecture.name }}</a>
+            <a href="{% url 'reviews_edit' review.lecture.id review.id %}" class="btn btn-primary ms-3"><i class="fa-solid fa-pen"></i></a>
+            <form action="{% url 'review_delete' review.lecture.id review.id %}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="d-inline-block">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+            </form>
+            <p>
+                {% include 'lectures/_star.html' with score=review.score %}
+                {{ review.title|default:"" }}
+            </p>
+            <p>{{ review.comment }}</p>
+        </div>
+        {% endfor %}
+        {% include '_pagination.html' with list=reviews %}
+        {% else %}
+        <p>まだレビューを投稿していません。</p>
+        {% endif %}
+    </div>
+    <div class="col">
+        <h2>お気に入り登録した講義</h2>
+        {% if lectures %}
+        <div class="row">
+            <div class="col-8 offset-4">
+                <form method="get" class="form-inline">
+                  <select name="sort" class="form-control mr-2" onchange="this.form.submit()">
+                    <option value="">並び替え</option>
+                    <option value="review_count_desc" {% if sort == "review_count_desc" %}selected{% endif %}>レビューが多い順</option>
+                    <option value="review_count_asc" {% if sort == "review_count_asc" %}selected{% endif %}>レビューが少ない順</option>
+                    <option value="average_score_desc" {% if sort == "average_score_desc" %}selected{% endif %}>評価が高い順</option>
+                    <option value="average_score_asc" {% if sort == "average_score_asc" %}selected{% endif %}>評価が低い順</option>
+                  </select>
+                </form>
+            </div>
+        </div>
+        {% include 'lectures/_lectures_table.html' %}
+        {% else %}
+        <p>まだお気に入り登録した講義はありません。</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

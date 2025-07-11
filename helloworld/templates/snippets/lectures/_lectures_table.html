@@ -1,0 +1,32 @@
+<table class="table table-hover table-bordered">
+    <thead class="table table-warning">
+        <tr>
+            <th>講義名</th>
+            <th>大学</th>
+            <th>学年</th>
+            <th>評価</th>
+            <th>レビュー数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lecture in lectures %}
+        <tr>
+            <td>
+                <a href="{% url 'lectures_show' lecture.id %}">{{ lecture.name }}</a>
+            </td>
+            <td>{{ lecture.university|default:"–" }}</td>
+            <td>{{ lecture.school_year|default:"–" }}</td>
+            <td>
+                {% load star_filters %}
+                <div class="star-rating">
+                  <div class="star-rating-fill" style="width: {{ lecture.average_score|rating_to_percent }}%;"></div>
+                </div>
+                {{ lecture.average_score|default:"" }}
+            </td>
+            <td>{{ lecture.reviews_count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include '_pagination.html' with list=lectures %}
