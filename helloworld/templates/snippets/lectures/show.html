@@ -99,7 +99,7 @@
 <!--レビュー一覧-->
 {% if valid_reviews %}
 {% for review in valid_reviews %}
-<div class="row mt-4">
+<div class="row flex-column flex-md-row mt-4">
   <div class="col">
     <a href="#" class="review-username fs-5 link-dark link-offset-1 link-underline-opacity-25 link-underline-opacity-100-hover" data-user-id="{{ review.user.id }}">
       <i class="fa-solid fa-user"></i>
