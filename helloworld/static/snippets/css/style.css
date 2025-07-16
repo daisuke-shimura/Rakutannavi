@@ -4,7 +4,7 @@ main {
 }
 
 .welcome {
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
   margin-bottom: 2rem;
   background:linear-gradient(135deg, #fff8d6, #fce38a); /* イチョウの黄色 */
   border-radius: 1.5rem; /* 丸み */
@@ -133,10 +133,6 @@ main {
   }
 }
 
-.user-popup-content {
-
-}
-
 
 /*お気に入り*/
 .favorites-custom{
@@ -161,12 +157,6 @@ main {
 
 .item {
   min-width: 100%;
-  /*background: lightcoral;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2em;*/
   border: 1px solid #000;
 }
 
@@ -180,7 +170,6 @@ main {
   font-size: 1.5rem;
   cursor: pointer;
   padding: 10px;
-
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -193,3 +182,9 @@ main {
 
 #prev { left: 5px; }
 #next { right: 5px; }
+
+
+/*ハンバーガーメニューの幅*/
+#offcanvasNavbar {
+  width: 150px;
+}
